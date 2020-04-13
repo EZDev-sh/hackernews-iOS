@@ -16,6 +16,7 @@ class NewsListViewController: UIViewController {
     // UITableView에 첨부되어야할 데이터
     // create by EZDev on 2020.04.13
     var newsList: [Hacker] = []
+    var page: Int = 0
     
 
     override func viewDidLoad() {
@@ -40,7 +41,7 @@ class NewsListViewController: UIViewController {
     // hacker news api에 접속하여 데이터를 업데이트 한다.
     // create by EZDev on 2020.04.13
     func connectAPI() {
-        guard let url = URL(string: "https://hn.algolia.com/api/v1/search_by_date?tags=story") else { return }
+        guard let url = URL(string: "https://hn.algolia.com/api/v1/search_by_date?tags=story&page=\(page)") else { return }
         
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
@@ -68,7 +69,7 @@ class NewsListViewController: UIViewController {
             }
             
             // 정보 업데이트
-            self.newsList = self.parseHacker(getData) ?? []
+            self.newsList += self.parseHacker(getData) ?? []
             
             OperationQueue.main.addOperation {
                 // UITableView UI 업데이트
@@ -81,8 +82,9 @@ class NewsListViewController: UIViewController {
 
 }
 
-
-extension NewsListViewController: UITableViewDataSource {
+// UITableView의 데이터와 행동 컨트롤
+// create by EZDev on 2020.04.13
+extension NewsListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return newsList.count
     }
@@ -95,5 +97,17 @@ extension NewsListViewController: UITableViewDataSource {
         return cell
     }
     
-    
+    // 스크롤 제일 아래로 내렸을경우 데이터를 업데이트 해준다.
+    // create by EZDev on 2020.04.13
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let contentHeight = scrollView.contentSize.height
+        let scrollBottom = scrollView.contentOffset.y + scrollView.bounds.height
+        
+        if contentHeight <= scrollBottom {
+            page += 1
+            connectAPI()
+        }
+        
+    }
+
 }
