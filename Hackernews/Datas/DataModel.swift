@@ -12,7 +12,7 @@ struct Response: Codable {
     let hits: [Hacker]
 }
 
-// hacker news api json 형식
+// hacker news search api json 형식
 // create by EZDev on 2020.04.13
 struct Hacker: Codable {
     let title: String?
@@ -51,3 +51,54 @@ struct Hacker: Codable {
     }
     
 }
+
+// hacker news api json 형식
+// create by EZDev on 2020.04.15
+struct Jobs: Codable {
+    let author: String
+    let title: String
+    let time: Int
+    let kids: [Int]?
+    let id: Int
+    let url: String
+    
+    var host: String? {
+        guard let url = URL(string: self.url) else { return nil }
+        return url.host
+    }
+    
+    var dateTime: String {
+        let date = Date(timeIntervalSince1970: Double(self.time))
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.locale = Locale(identifier: "ko")
+        dateFormatter.timeStyle = .none
+        dateFormatter.dateStyle = .medium
+        dateFormatter.dateFormat = "YYYY-MM-DD"
+        
+        return dateFormatter.string(from: date)
+    }
+    
+    var numComments: String {
+        if let cnt = self.kids?.count {
+            return "\(cnt)"
+        }
+        else {
+            return "0"
+        }
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case author = "by"
+        case title, time, kids, id, url
+    }
+}
+
+//
+//"by" : "nickb",
+//"id" : 8952,
+//"kids" : [ 9153 ],
+//"parent" : 8863,
+//"text" : "The only problem is that you have to install something. See, it's not the same as USB drive. Most corporate laptops are locked and you can't install anything on them. That's gonna be the problem. Also, another point where your USB comparison fails is that USB works in places where you don't have internet access. <p>My suggestion is to drop the \"Throw away your USB drive\" tag line and use something else... it will just muddy your vision.<p>Kudos for launching it!!! Launching/shipping is extremely hard and you pulled it off! Super!",
+//"time" : 1175727286,
+//"type" : "comment"

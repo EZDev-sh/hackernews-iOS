@@ -54,5 +54,15 @@ class NewsCell: UITableViewCell {
         }
         
     }
+    
+    // jobs에 해당하는 내용 업데이트
+    func updateJobs(job: Jobs) {
+        self.headLine.text = job.title
+        self.author.text = job.author
+        self.date.text = job.dateTime
+        self.comments.text = job.numComments
+        self.reference.text = job.host
+        
+    }
 
 }
