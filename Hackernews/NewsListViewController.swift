@@ -18,18 +18,25 @@ class NewsListViewController: UIViewController {
     let tagList = ["story", "comment", "show_hn", "ask_hn", "jobstories"]
     var newsList: [Hacker] = []
     var page: Int = 0
-    var tags: String = "jobstories"
-    var jobsList: [Jobs] = []
+    var tags: String = "story"
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        
+        // xcode 11.4.1에서 스토리보드상에서 navigationbar large title = true일때 tintColor 설정이 안되는 부분을 구현
+        // create by EZDev on 2020.04.16
+        if #available(iOS 13.0, *) {
+            let navBarAppearance = UINavigationBarAppearance()
+            navBarAppearance.configureWithOpaqueBackground()
+            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.backgroundColor = .systemYellow
+            self.navigationController?.navigationBar.standardAppearance = navBarAppearance
+            self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         connectAPI()
     }
     
@@ -47,18 +54,20 @@ class NewsListViewController: UIViewController {
     }
     
     func parse(_ data: Data) {
+        
         do {
             let decoder = JSONDecoder()
-            let response = try decoder.decode(Jobs.self, from: data)
-            self.jobsList.append(response)
+            let response = try decoder.decode(Hacker.self, from: data)
+            self.newsList.append(response)
+
         } catch let jsonError {
-            print("job json")
             print(jsonError)
         }
     }
     
     func connectJobCode(_ code: String) {
-        guard let url = URL(string: "https://hacker-news.firebaseio.com/v0/item/\(code).json") else { return }
+        print(code)
+        guard let url = URL(string: "https://hn.algolia.com/api/v1/items/\(code)") else { return }
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         
@@ -85,9 +94,6 @@ class NewsListViewController: UIViewController {
             }
             
             self.parse(getData)
-            
-            // 정보 업데이트
-            //            self.newsList += self.parseHacker(getData) ?? []
             
             OperationQueue.main.addOperation {
                 // UITableView UI 업데이트
@@ -161,6 +167,8 @@ class NewsListViewController: UIViewController {
         }
         guard let url = URL(string: "https://hn.algolia.com/api/v1/search_by_date?tags=\(tags)&page=\(page)") else { return }
         
+        print(url)
+        
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         
@@ -198,6 +206,9 @@ class NewsListViewController: UIViewController {
         dataTask.resume()
     }
     
+    
+    // 페이지 전환
+    // create by EZDev on 2020.04.16
     @IBAction func headerBtn(_ sender: UIButton) {
         page = 0
         tags = tagList[sender.tag]
@@ -215,25 +226,14 @@ class NewsListViewController: UIViewController {
 // create by EZDev on 2020.04.13
 extension NewsListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tags == "jobstories" {
-            return jobsList.count
-        }
-        else {
-            return newsList.count
-        }
+        return newsList.count
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NewsCell.cellIdentifire, for: indexPath) as? NewsCell else { return UITableViewCell()}
         
-        if tags == "jobstories" {
-            cell.updateJobs(job: jobsList[indexPath.row])
-        }
-        else {
-            cell.updateUI(hacker: newsList[indexPath.row])
-        }
-        
+        cell.updateUI(hacker: newsList[indexPath.row])
         
         return cell
     }

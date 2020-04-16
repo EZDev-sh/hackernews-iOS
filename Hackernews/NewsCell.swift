@@ -37,9 +37,16 @@ class NewsCell: UITableViewCell {
     // data에 따른 UI 내용 변경
     // create by EZDev on 2020.04.13
     func updateUI(hacker: Hacker) {
-        self.headLine.text = hacker.title
         self.reference.text = hacker.host
         self.date.text = hacker.dateTime
+        
+        if let title = hacker.title {
+            self.headLine.text = title
+        }
+        else {
+            self.headLine.text = hacker.commentText
+            self.reference.text = hacker.storyTitle
+        }
         
         if let writer = hacker.author {
             self.author.text = "by \(writer)"
@@ -52,16 +59,6 @@ class NewsCell: UITableViewCell {
         if let comment = hacker.numComments {
             self.comments.text = "\(comment)"
         }
-        
-    }
-    
-    // jobs에 해당하는 내용 업데이트
-    func updateJobs(job: Jobs) {
-        self.headLine.text = job.title
-        self.author.text = job.author
-        self.date.text = job.dateTime
-        self.comments.text = job.numComments
-        self.reference.text = job.host
         
     }
 

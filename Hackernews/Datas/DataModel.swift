@@ -20,16 +20,21 @@ struct Hacker: Codable {
     let author: String?
     let numComments: Int?
     let points: Int?
-    let date: String?
+    let date: Int
+    let children: [Comment]?
+    let commentText: String?
+    let storyTitle: String?
     
     // 년, 월, 일 만 다시 가져온다.
-    // create by EZDev on 2020.04.13
+    // create by EZDev on 2020.04.16
     var dateTime: String {
-        let startIndex = self.date?.startIndex
-        let endIndex = self.date?.index(startIndex!, offsetBy: 10)
-        let range = startIndex!..<endIndex!
+        let date = Date(timeIntervalSince1970: Double(self.date))
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko")
+        dateFormatter.dateFormat = "YYYY-MM-dd"
         
-        return String(self.date![range])
+        return dateFormatter.string(from: date)
+        
     }
     
     // 출처가 어느 사이트인지만 가져온다.
@@ -43,62 +48,28 @@ struct Hacker: Codable {
     }
     
     // json 형식을 swift에 맞춰서 변수를 사용하기 위한 작업
-    // create by EZDev on 2020.03.14
+    // create by EZDev on 2020.04.14
     enum CodingKeys: String, CodingKey {
-        case title, url, author, points
+        case title, url, author, points, children
         case numComments = "num_comments"
-        case date = "created_at"
+        case date = "created_at_i"
+        case commentText = "comment_text"
+        case storyTitle = "story_title"
     }
-    
 }
 
-// hacker news api json 형식
-// create by EZDev on 2020.04.15
-struct Jobs: Codable {
+// comment에 필요한 json 형식
+// create by EZDev on 2020.04.16
+struct Comment: Codable {
+    let date: String
     let author: String
     let title: String
-    let time: Int
-    let kids: [Int]?
-    let id: Int
-    let url: String
-    
-    var host: String? {
-        guard let url = URL(string: self.url) else { return nil }
-        return url.host
-    }
-    
-    var dateTime: String {
-        let date = Date(timeIntervalSince1970: Double(self.time))
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.locale = Locale(identifier: "ko")
-        dateFormatter.timeStyle = .none
-        dateFormatter.dateStyle = .medium
-        dateFormatter.dateFormat = "YYYY-MM-DD"
-        
-        return dateFormatter.string(from: date)
-    }
-    
-    var numComments: String {
-        if let cnt = self.kids?.count {
-            return "\(cnt)"
-        }
-        else {
-            return "0"
-        }
-    }
+    let points: Int
+    let children: [Comment]?
     
     enum CodingKeys: String, CodingKey {
-        case author = "by"
-        case title, time, kids, id, url
+        case date = "create_at"
+        case title = "text"
+        case author, points, children
     }
 }
-
-//
-//"by" : "nickb",
-//"id" : 8952,
-//"kids" : [ 9153 ],
-//"parent" : 8863,
-//"text" : "The only problem is that you have to install something. See, it's not the same as USB drive. Most corporate laptops are locked and you can't install anything on them. That's gonna be the problem. Also, another point where your USB comparison fails is that USB works in places where you don't have internet access. <p>My suggestion is to drop the \"Throw away your USB drive\" tag line and use something else... it will just muddy your vision.<p>Kudos for launching it!!! Launching/shipping is extremely hard and you pulled it off! Super!",
-//"time" : 1175727286,
-//"type" : "comment"
