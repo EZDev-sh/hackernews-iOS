@@ -13,13 +13,6 @@ class NewsListViewController: UIViewController {
     // 변경 되어야할 UI Component
     @IBOutlet weak var newsTable: UITableView!
     
-    // UITableView에 첨부되어야할 데이터
-    // create by EZDev on 2020.04.13
-    let tagList = ["story", "comment", "show_hn", "ask_hn", "jobstories"]
-    var newsList: [Hacker] = []
-    var page: Int = 0
-    var tags: String = "story"
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -37,183 +30,47 @@ class NewsListViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        connectAPI()
-    }
-    
-    // hacker news api에서 받은 데이터를 json 형식으로 변환
-    // create by EZDev on 2020.04.13
-    func parseHacker(_ data: Data) -> [Hacker]? {
-        do {
-            let decoder = JSONDecoder()
-            let response = try decoder.decode(Response.self, from: data)
-            return response.hits
-        } catch let jsonErr {
-            print(jsonErr.localizedDescription)
-            return nil
-        }
-    }
-    
-    func parse(_ data: Data) {
+        // api에 접속하여 데이터 추출을 시도한다.
+        APIMgr.manager.connectAPI()
         
-        do {
-            let decoder = JSONDecoder()
-            let response = try decoder.decode(Hacker.self, from: data)
-            self.newsList.append(response)
-
-        } catch let jsonError {
-            print(jsonError)
-        }
-    }
-    
-    func connectJobCode(_ code: String) {
-        print(code)
-        guard let url = URL(string: "https://hn.algolia.com/api/v1/items/\(code)") else { return }
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
         
-        let dataTask = session.dataTask(with: url) { (data, response, error) in
-            // client error check
-            if let clientError = error {
-                print(clientError)
-                return
-            }
-            
-            // server error check
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else { return }
-            guard (200..<300).contains(statusCode) else {
-                print("~~> status code : \(statusCode)")
-                // error handle
-                return
-            }
-            
-            // result data check
-            guard let getData = data else {
-                print("data error")
-                return
-                
-            }
-            
-            self.parse(getData)
-            
-            OperationQueue.main.addOperation {
-                // UITableView UI 업데이트
-                self.newsTable.reloadData()
-            }
-            
+        // 데이터 추출이 끝났을경우 알림이오는 노티피케이션
+        NotificationCenter.default.addObserver(forName: APIMgr.completedData, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            self?.newsTable.reloadData()
         }
-        dataTask.resume()
     }
     
-    func parseJobs(_ data: Data){
-        do {
-            let response = try JSONSerialization.jsonObject(with: data, options: []) as? [AnyObject]
-            if let res = response {
-                for i in (page * 20)..<(page * 20 + 20){
-                    connectJobCode("\(res[i])")
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // 사용된 노티피게이션을 NewsListViewController가 꺼지면 제거한다.
+        // create by EZDev on 2020.04.18
+        NotificationCenter.default.removeObserver(self)
+    }
+    // cell 선택시 화면 전환하게 해줍니다.
+    // create by EZDev on 2020.04.17
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetail" {
+            let vc = segue.destination as? DetailViewController
+            
+            if let cell = sender as? NewsCell {
+                if let indexPath = newsTable.indexPath(for: cell) {
+                    vc?.connectURL = APIMgr.manager.newsList[indexPath.row].url
+                    vc?.naviTitleStr = APIMgr.manager.tags
                 }
             }
-        } catch let jsonError {
-            print(jsonError)
+            
         }
     }
-    func connectJobAPI() {
-        guard let url = URL(string: "https://hacker-news.firebaseio.com/v0/\(tags).json") else { return }
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
-        
-        let dataTask = session.dataTask(with: url) { (data, response, error) in
-            // client error check
-            if let clientError = error {
-                print(clientError)
-                return
-            }
-            
-            
-            // server error check
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else { return }
-            guard (200..<300).contains(statusCode) else {
-                print("~~> status code : \(statusCode)")
-                // error handle
-                return
-            }
-            
-            // result data check
-            guard let getData = data else {
-                print("data error")
-                return
-                
-            }
-            
-            self.parseJobs(getData)
-            
-            // 정보 업데이트
-            //            self.newsList += self.parseHacker(getData) ?? []
-            
-            OperationQueue.main.addOperation {
-                // UITableView UI 업데이트
-                self.newsTable.reloadData()
-            }
-            
-        }
-        dataTask.resume()
-    }
-    
-    // hacker news api에 접속하여 데이터를 업데이트 한다.
-    // create by EZDev on 2020.04.13
-    func connectAPI() {
-        if tags == tagList[4] {
-            connectJobAPI()
-            return
-        }
-        guard let url = URL(string: "https://hn.algolia.com/api/v1/search_by_date?tags=\(tags)&page=\(page)") else { return }
-        
-        print(url)
-        
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
-        
-        let dataTask = session.dataTask(with: url) { (data, response, error) in
-            // client error check
-            if let clientError = error {
-                print(clientError)
-                return
-            }
-            
-            // server error check
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else { return }
-            guard (200..<300).contains(statusCode) else {
-                print("~~> status code : \(statusCode)")
-                // error handle
-                return
-            }
-            
-            // result data check
-            guard let getData = data else {
-                print("data error")
-                return
-                
-            }
-            
-            // 정보 업데이트
-            self.newsList += self.parseHacker(getData) ?? []
-            
-            OperationQueue.main.addOperation {
-                // UITableView UI 업데이트
-                self.newsTable.reloadData()
-            }
-            
-        }
-        dataTask.resume()
-    }
-    
     
     // 페이지 전환
     // create by EZDev on 2020.04.16
     @IBAction func headerBtn(_ sender: UIButton) {
-        page = 0
-        tags = tagList[sender.tag]
-        newsList.removeAll()
-        connectAPI()
+        APIMgr.manager.page = 0
+        APIMgr.manager.tags = APIMgr.manager.tagList[sender.tag]
+        APIMgr.manager.newsList.removeAll()
+        APIMgr.manager.connectAPI()
     }
     
     @IBAction func addComment(_ sender: UIBarButtonItem) {
@@ -226,14 +83,14 @@ class NewsListViewController: UIViewController {
 // create by EZDev on 2020.04.13
 extension NewsListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return newsList.count
+        return APIMgr.manager.newsList.count
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NewsCell.cellIdentifire, for: indexPath) as? NewsCell else { return UITableViewCell()}
         
-        cell.updateUI(hacker: newsList[indexPath.row])
+        cell.updateUI(hacker: APIMgr.manager.newsList[indexPath.row])
         
         return cell
     }
@@ -245,8 +102,8 @@ extension NewsListViewController: UITableViewDataSource, UITableViewDelegate {
         let scrollBottom = scrollView.contentOffset.y + scrollView.bounds.height
         
         if contentHeight <= scrollBottom {
-            page += 1
-            connectAPI()
+            APIMgr.manager.page += 1
+            APIMgr.manager.connectAPI()
         }
         
     }

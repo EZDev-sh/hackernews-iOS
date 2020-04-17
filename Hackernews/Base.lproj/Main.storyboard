@@ -75,11 +75,11 @@
                                     <constraint firstItem="XWE-t9-xkL" firstAttribute="top" secondItem="CWy-8I-xAo" secondAttribute="top" id="eT8-Yw-vcJ"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZlF-FQ-zWQ">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZlF-FQ-zWQ">
                                 <rect key="frame" x="0.0" y="200" width="414" height="662"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="newsCell" rowHeight="169" id="Fkn-t1-jDg" customClass="NewsCell" customModule="Hackernews" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="newsCell" rowHeight="169" id="Fkn-t1-jDg" customClass="NewsCell" customModule="Hackernews" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="169"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fkn-t1-jDg" id="l2y-aU-odH">
@@ -189,6 +189,7 @@
                                             <outlet property="headLine" destination="iv5-2e-67r" id="EP4-X9-SDc"/>
                                             <outlet property="point" destination="BIp-9u-T7Y" id="8kc-mY-5Ko"/>
                                             <outlet property="reference" destination="gnx-T5-soD" id="VuE-b3-3kS"/>
+                                            <segue destination="B1g-g1-L5l" kind="show" identifier="showDetail" id="XOB-6T-3fI"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -250,6 +251,41 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lun-zw-3nt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1053.6231884057972" y="137.94642857142856"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="7Z3-dz-nmL">
+            <objects>
+                <viewController id="B1g-g1-L5l" customClass="DetailViewController" customModule="Hackernews" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Rcp-2w-Ylh">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kfv-E0-qfP">
+                                <rect key="frame" x="0.0" y="140" width="414" height="722"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="C3z-zg-sC6" firstAttribute="bottom" secondItem="kfv-E0-qfP" secondAttribute="bottom" id="7zX-WC-srp"/>
+                            <constraint firstItem="kfv-E0-qfP" firstAttribute="leading" secondItem="C3z-zg-sC6" secondAttribute="leading" id="Jbl-b0-MmY"/>
+                            <constraint firstItem="kfv-E0-qfP" firstAttribute="top" secondItem="C3z-zg-sC6" secondAttribute="top" id="otf-FL-WFM"/>
+                            <constraint firstItem="C3z-zg-sC6" firstAttribute="trailing" secondItem="kfv-E0-qfP" secondAttribute="trailing" id="sgK-od-9pZ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="C3z-zg-sC6"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="9Ev-6k-nwT"/>
+                    <connections>
+                        <outlet property="webView" destination="kfv-E0-qfP" id="xyY-yx-juD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jBs-3u-aYp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3004" y="138"/>
         </scene>
     </scenes>
     <resources>
