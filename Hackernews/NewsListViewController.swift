@@ -74,7 +74,7 @@ class NewsListViewController: UIViewController {
     }
     
     @IBAction func addComment(_ sender: UIBarButtonItem) {
-        print("add comment")
+        
     }
     
 }
