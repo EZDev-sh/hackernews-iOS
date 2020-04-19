@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		78535D062449B0C500C165F0 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78535D052449B0C500C165F0 /* DetailViewController.swift */; };
+		78095846244C4AD0002A1277 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78095845244C4AD0002A1277 /* DetailViewController.swift */; };
+		7809584A244C69D5002A1277 /* BarButtonItem+Image&TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78095849244C69D5002A1277 /* BarButtonItem+Image&TextButton.swift */; };
 		78535D082449B59200C165F0 /* APIMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78535D072449B59200C165F0 /* APIMgr.swift */; };
 		78535D0A244AEFEC00C165F0 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78535D09244AEFEC00C165F0 /* AccountViewController.swift */; };
 		78535D0C244AF8F000C165F0 /* TextField+BottomBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78535D0B244AF8F000C165F0 /* TextField+BottomBorder.swift */; };
@@ -22,7 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		78535D052449B0C500C165F0 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		78095845244C4AD0002A1277 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		78095849244C69D5002A1277 /* BarButtonItem+Image&TextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BarButtonItem+Image&TextButton.swift"; sourceTree = "<group>"; };
 		78535D072449B59200C165F0 /* APIMgr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIMgr.swift; sourceTree = "<group>"; };
 		78535D09244AEFEC00C165F0 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		78535D0B244AF8F000C165F0 /* TextField+BottomBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+BottomBorder.swift"; sourceTree = "<group>"; };
@@ -49,6 +51,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		78535D0D244B0C1300C165F0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7862BE2F2443033400EF4D4E /* NewsListViewController.swift */,
+				7862BE312443038A00EF4D4E /* NewsCell.swift */,
+				78535D09244AEFEC00C165F0 /* AccountViewController.swift */,
+				78095845244C4AD0002A1277 /* DetailViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		7862BE0E244301F700EF4D4E = {
 			isa = PBXGroup;
 			children = (
@@ -68,16 +81,12 @@
 		7862BE19244301F700EF4D4E /* Hackernews */ = {
 			isa = PBXGroup;
 			children = (
+				78535D0D244B0C1300C165F0 /* Views */,
 				7862BE33244311E400EF4D4E /* Datas */,
 				7862BE2E244302DE00EF4D4E /* SupporingFiles */,
 				7862BE20244301F700EF4D4E /* Main.storyboard */,
 				7862BE25244301F800EF4D4E /* LaunchScreen.storyboard */,
 				7862BE28244301F800EF4D4E /* Info.plist */,
-				7862BE2F2443033400EF4D4E /* NewsListViewController.swift */,
-				7862BE312443038A00EF4D4E /* NewsCell.swift */,
-				78535D052449B0C500C165F0 /* DetailViewController.swift */,
-				78535D09244AEFEC00C165F0 /* AccountViewController.swift */,
-				78535D0B244AF8F000C165F0 /* TextField+BottomBorder.swift */,
 			);
 			path = Hackernews;
 			sourceTree = "<group>";
@@ -85,9 +94,11 @@
 		7862BE2E244302DE00EF4D4E /* SupporingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				78535D0B244AF8F000C165F0 /* TextField+BottomBorder.swift */,
 				7862BE1A244301F700EF4D4E /* AppDelegate.swift */,
 				7862BE1C244301F700EF4D4E /* SceneDelegate.swift */,
 				7862BE23244301F800EF4D4E /* Assets.xcassets */,
+				78095849244C69D5002A1277 /* BarButtonItem+Image&TextButton.swift */,
 			);
 			path = SupporingFiles;
 			sourceTree = "<group>";
@@ -173,10 +184,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7862BE35244311F000EF4D4E /* DataModel.swift in Sources */,
+				78095846244C4AD0002A1277 /* DetailViewController.swift in Sources */,
 				7862BE302443033400EF4D4E /* NewsListViewController.swift in Sources */,
 				78535D0A244AEFEC00C165F0 /* AccountViewController.swift in Sources */,
+				7809584A244C69D5002A1277 /* BarButtonItem+Image&TextButton.swift in Sources */,
 				7862BE1B244301F700EF4D4E /* AppDelegate.swift in Sources */,
-				78535D062449B0C500C165F0 /* DetailViewController.swift in Sources */,
 				7862BE322443038A00EF4D4E /* NewsCell.swift in Sources */,
 				78535D082449B59200C165F0 /* APIMgr.swift in Sources */,
 				78535D0C244AF8F000C165F0 /* TextField+BottomBorder.swift in Sources */,

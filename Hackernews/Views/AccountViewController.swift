@@ -30,6 +30,10 @@ class AccountViewController: UIViewController {
         longinPWText.addBottomBorder()
         signUpNameText.addBottomBorder()
         signUpPWText.addBottomBorder()
+        
+        self.navigationController?.navigationBar.tintColor = .white
+        
+   
     }
 
     override func viewDidLoad() {

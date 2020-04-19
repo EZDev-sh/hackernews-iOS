@@ -1,4 +1,3 @@
-//
 //  DetailViewController.swift
 //  Hackernews
 //
@@ -13,21 +12,32 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var webView: WKWebView!
     
-    var connectURL: String?
-    var naviTitleStr: String?
+    var newsItem: Hacker?
     
     override func loadView() {
         super.loadView()
+        
+        // navigation bar item 색상 변경
+        // create by EZDev on 2020.04.19
+        self.navigationController?.navigationBar.tintColor = .white
+        
+        // navigation bar button에 사용할 이미지 설정
+        // create by EZDev on 2020.04.19
+        let pointImg = UIImage(named: "point")?.withRenderingMode(.alwaysTemplate)
+        let commentImg = UIImage(named: "comments")?.withRenderingMode(.alwaysTemplate)
+        
+        if let commentNums = newsItem?.numComments {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem.button(image: commentImg!, title: " \(commentNums)", target: self, action: #selector(clickComment(_:)))
+        }
+        if let point = newsItem?.points {
+            self.navigationItem.rightBarButtonItems?.append(UIBarButtonItem.button(image: pointImg!, title: " \(point)", target: self, action: #selector(clickPoint(_:))))
+
+        }
+        
         webView.uiDelegate = self
         webView.navigationDelegate = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.navigationItem.title = naviTitleStr
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,11 +45,21 @@ class DetailViewController: UIViewController {
         
     }
     
+    // webView에 사용할 웹사이트 불러오기
+    // create by EZDev on 2020.04.19
     func connectOriginal() {
-        guard let link = connectURL else { return }
+        guard let link = newsItem?.url else { return }
         guard let url = URL(string: link) else { return }
         let request = URLRequest(url: url)
         webView.load(request)
+    }
+    
+    @objc func clickComment(_ sender: Any) {
+        print("click comment")
+    }
+    
+    @objc func clickPoint(_ sender: Any) {
+        print("click point")
     }
 
 
@@ -106,3 +126,4 @@ extension DetailViewController: WKUIDelegate, WKNavigationDelegate {
         webView.reload()
     }
 }
+

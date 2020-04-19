@@ -26,6 +26,8 @@ class NewsListViewController: UIViewController {
             navBarAppearance.backgroundColor = .systemYellow
             self.navigationController?.navigationBar.standardAppearance = navBarAppearance
             self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+            
+            
         }
     }
     override func viewDidLoad() {
@@ -48,16 +50,26 @@ class NewsListViewController: UIViewController {
         // create by EZDev on 2020.04.18
         NotificationCenter.default.removeObserver(self)
     }
+    
     // cell 선택시 화면 전환하게 해줍니다.
     // create by EZDev on 2020.04.17
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "showDetail" {
+//            let detail = segue.description as? DetailViewController
+//
+//            if let cell = sender as? NewsCell {
+//                if let indexPath = newsTable.indexPath(for: cell) {
+//                    detail?.newsItem = APIMgr.manager.newsList[indexPath.row]
+//                }
+//            }
+//        }
         if segue.identifier == "showDetail" {
             let vc = segue.destination as? DetailViewController
             
             if let cell = sender as? NewsCell {
                 if let indexPath = newsTable.indexPath(for: cell) {
-                    vc?.connectURL = APIMgr.manager.newsList[indexPath.row].url
-                    vc?.naviTitleStr = APIMgr.manager.tags
+                    print(indexPath.row)
+                    vc?.newsItem = APIMgr.manager.newsList[indexPath.row]
                 }
             }
             
@@ -73,9 +85,6 @@ class NewsListViewController: UIViewController {
         APIMgr.manager.connectAPI()
     }
     
-    @IBAction func addComment(_ sender: UIBarButtonItem) {
-        
-    }
     
 }
 
