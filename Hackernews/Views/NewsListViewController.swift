@@ -26,9 +26,8 @@ class NewsListViewController: UIViewController {
             navBarAppearance.backgroundColor = .systemYellow
             self.navigationController?.navigationBar.standardAppearance = navBarAppearance
             self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-            
-            
         }
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,31 +48,6 @@ class NewsListViewController: UIViewController {
         // 사용된 노티피게이션을 NewsListViewController가 꺼지면 제거한다.
         // create by EZDev on 2020.04.18
         NotificationCenter.default.removeObserver(self)
-    }
-    
-    // cell 선택시 화면 전환하게 해줍니다.
-    // create by EZDev on 2020.04.17
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "showDetail" {
-//            let detail = segue.description as? DetailViewController
-//
-//            if let cell = sender as? NewsCell {
-//                if let indexPath = newsTable.indexPath(for: cell) {
-//                    detail?.newsItem = APIMgr.manager.newsList[indexPath.row]
-//                }
-//            }
-//        }
-        if segue.identifier == "showDetail" {
-            let vc = segue.destination as? DetailViewController
-            
-            if let cell = sender as? NewsCell {
-                if let indexPath = newsTable.indexPath(for: cell) {
-                    print(indexPath.row)
-                    vc?.newsItem = APIMgr.manager.newsList[indexPath.row]
-                }
-            }
-            
-        }
     }
     
     // 페이지 전환
@@ -104,6 +78,25 @@ extension NewsListViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let sendData = APIMgr.manager.newsList[indexPath.row]
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        
+        if let _ = sendData.url {
+            guard let webView = storyBoard.instantiateViewController(withIdentifier: "webView") as? OriginWebViewcontroller else { return }
+            webView.newsItem = sendData
+            self.navigationController?.pushViewController(webView, animated: true)
+ 
+        }
+        else {
+            guard let detailView = storyBoard.instantiateViewController(withIdentifier: "detailView") as? DetailViewController else { return }
+            
+            detailView.newsItem = sendData
+            self.navigationController?.pushViewController(detailView, animated: true)
+            
+        }
+    }
+    
     // 스크롤 제일 아래로 내렸을경우 데이터를 업데이트 해준다.
     // create by EZDev on 2020.04.13
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -114,7 +107,6 @@ extension NewsListViewController: UITableViewDataSource, UITableViewDelegate {
             APIMgr.manager.page += 1
             APIMgr.manager.connectAPI()
         }
-        
     }
     
 }

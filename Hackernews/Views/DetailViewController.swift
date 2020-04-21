@@ -6,11 +6,18 @@
 //
 
 import UIKit
-import WebKit
 
 class DetailViewController: UIViewController {
     
-    @IBOutlet weak var webView: WKWebView!
+    @IBOutlet weak var content: UILabel!
+    @IBOutlet weak var point: UILabel!
+    @IBOutlet weak var comment: UILabel!
+    @IBOutlet weak var date: UILabel!
+    @IBOutlet weak var author: UILabel!
+    
+    @IBOutlet weak var commentTextView: UITextView!
+    
+    @IBOutlet weak var sendBtn: UIButton!
     
     var newsItem: Hacker?
     
@@ -23,107 +30,125 @@ class DetailViewController: UIViewController {
         
         // navigation bar button에 사용할 이미지 설정
         // create by EZDev on 2020.04.19
-        let pointImg = UIImage(named: "point")?.withRenderingMode(.alwaysTemplate)
         let commentImg = UIImage(named: "comments")?.withRenderingMode(.alwaysTemplate)
         
         if let commentNums = newsItem?.numComments {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem.button(image: commentImg!, title: " \(commentNums)", target: self, action: #selector(clickComment(_:)))
         }
-        if let point = newsItem?.points {
-            self.navigationItem.rightBarButtonItems?.append(UIBarButtonItem.button(image: pointImg!, title: " \(point)", target: self, action: #selector(clickPoint(_:))))
+        else {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem.button(image: commentImg!, title: " 0", target: self, action: #selector(clickComment(_:)))
+        }
+        
+        commentTextView.layer.borderColor = UIColor.systemGray.cgColor
+        commentTextView.layer.borderWidth = 1
+        
+        sendBtn.layer.cornerRadius = 15
+        sendBtn.layer.masksToBounds = true
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        commentTextView.delegate = self
+//        print(newsItem?.parentId)
+//        let parent = APIMgr.manager.connectParent("\(newsItem?.parentId)")
+//
+//        if let title = parent?.title {
+//            content.text = title
+//        }
+//        else {
+//            content.text = parent?.commentText
+//        }
+//        point.text = "\(parent?.points) point"
+//        if let numComment = parent?.numComments as? String {
+//            comment.text = "\(numComment) comment"
+//        }
+//        date.text = parent?.dateTime
+//        author.text = parent?.author
+        
+        
+//        NotificationCenter.default.addObserver(forName: APIMgr.completedParent, object: Hacker.self, queue: OperationQueue.main) { [weak self] (noti) in
+//
+//            let parent = object
+//
+//        }
+        if let code = newsItem?.parentId  {
+            APIMgr.manager.connectParent("\(code)")
+            print(code)
+        }
+        else {
+            print("faile")
+        }
+        
+        NotificationCenter.default.addObserver(forName: APIMgr.completedParent, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            
+            let parent = APIMgr.manager.parent
+            
+            if let title = parent?.title {
+                self?.content.text = title
+            }
+            else {
+                self?.content.text = parent?.text
+            }
+            
+            if let points = parent?.points {
+                self?.point.text = "\(points) point"
+            }
+            else {
+                self?.point.text = "0 point"
+            }
+            
+            if let numComment = parent?.numComments {
+                self?.comment.text = "\(numComment) comment"
+            }
+            else if let numComment = parent?.children?.count {
+                self?.comment.text = "\(numComment) comment"
+            }
+            
+            self?.date.text = parent?.dateTime
+            if let author = parent?.author {
+                self?.author.text = "by \(author)"
+            }
+            
+            
 
         }
         
-        webView.uiDelegate = self
-        webView.navigationDelegate = self
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        connectOriginal()
-        
-    }
-    
-    // webView에 사용할 웹사이트 불러오기
-    // create by EZDev on 2020.04.19
-    func connectOriginal() {
-        guard let link = newsItem?.url else { return }
-        guard let url = URL(string: link) else { return }
-        let request = URLRequest(url: url)
-        webView.load(request)
     }
     
     @objc func clickComment(_ sender: Any) {
         print("click comment")
     }
     
-    @objc func clickPoint(_ sender: Any) {
-        print("click point")
-    }
-
-
 }
-extension DetailViewController: WKUIDelegate, WKNavigationDelegate {
-    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-        
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
-            completionHandler()
-        })
-        
-        alertController.addAction(okAction)
-        
-        present(alertController, animated: true, completion: nil)
+
+// textview에 placehold기능 추가
+// create by EZDev on 2020.04.21
+extension DetailViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        initTextview()
     }
-    
-    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
-            completionHandler(true)
-        })
-        let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
-            completionHandler(false)
-        })
-        alertController.addAction(okAction)
-        alertController.addAction(cancelAction)
-        
-        present(alertController, animated: true, completion: nil)
-    }
-    
-    func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
-        let alertController = UIAlertController(title: nil, message: prompt, preferredStyle: .alert)
-        alertController.addTextField(configurationHandler: { (textField) in
-            textField.text = defaultText
-        })
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
-            if let text = alertController.textFields?.first?.text {
-                completionHandler(text)
-            }
-            else {
-                completionHandler(defaultText)
-            }
-        })
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
-            completionHandler(nil)
-        })
-        
-        alertController.addAction(okAction)
-        alertController.addAction(cancel)
-        
-        present(alertController, animated: true, completion: nil)
-    }
-    
-    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-        if navigationAction.targetFrame == nil {
-            webView.load(navigationAction.request)
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if commentTextView.text == "" {
+            initTextview()
         }
-        return nil
-        
     }
-    
-    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
-        webView.reload()
+    func initTextview() {
+        if commentTextView.text == "내용을 입력하세요" {
+            commentTextView.text = ""
+            commentTextView.textColor = .black
+        }
+        else if commentTextView.text == "" {
+            commentTextView.text = "내용을 입력하세요"
+            commentTextView.textColor = .lightGray
+        }
+        else {
+            commentTextView.textColor = .black
+        }
     }
 }
-

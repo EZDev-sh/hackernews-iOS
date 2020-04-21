@@ -20,6 +20,7 @@
 		7862BE302443033400EF4D4E /* NewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7862BE2F2443033400EF4D4E /* NewsListViewController.swift */; };
 		7862BE322443038A00EF4D4E /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7862BE312443038A00EF4D4E /* NewsCell.swift */; };
 		7862BE35244311F000EF4D4E /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7862BE34244311F000EF4D4E /* DataModel.swift */; };
+		7890E95C244D938B0075D3C0 /* OriginWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7890E95B244D938B0075D3C0 /* OriginWebViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		7862BE2F2443033400EF4D4E /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
 		7862BE312443038A00EF4D4E /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		7862BE34244311F000EF4D4E /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		7890E95B244D938B0075D3C0 /* OriginWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginWebViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 				7862BE312443038A00EF4D4E /* NewsCell.swift */,
 				78535D09244AEFEC00C165F0 /* AccountViewController.swift */,
 				78095845244C4AD0002A1277 /* DetailViewController.swift */,
+				7890E95B244D938B0075D3C0 /* OriginWebViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -191,6 +194,7 @@
 				7862BE1B244301F700EF4D4E /* AppDelegate.swift in Sources */,
 				7862BE322443038A00EF4D4E /* NewsCell.swift in Sources */,
 				78535D082449B59200C165F0 /* APIMgr.swift in Sources */,
+				7890E95C244D938B0075D3C0 /* OriginWebViewController.swift in Sources */,
 				78535D0C244AF8F000C165F0 /* TextField+BottomBorder.swift in Sources */,
 				7862BE1D244301F700EF4D4E /* SceneDelegate.swift in Sources */,
 			);
