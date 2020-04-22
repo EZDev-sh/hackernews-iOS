@@ -110,8 +110,6 @@ class DetailViewController: UIViewController {
             if let author = parent?.author {
                 self?.author.text = "by \(author)"
             }
-            
-            
 
         }
         
