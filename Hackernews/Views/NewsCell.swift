@@ -44,7 +44,7 @@ class NewsCell: UITableViewCell {
             self.headLine.text = title
         }
         else {
-            self.headLine.text = hacker.commentText
+            self.headLine.text = hacker.commentText?.htmlEscaped
             self.reference.text = hacker.storyTitle
         }
         

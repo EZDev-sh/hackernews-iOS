@@ -172,8 +172,6 @@ class APIMgr {
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         
-        var hacker: Hacker?
-        
         let dataTask = session.dataTask(with: url) { (data, response, error) in
             // client error check
             if let clientError = error {

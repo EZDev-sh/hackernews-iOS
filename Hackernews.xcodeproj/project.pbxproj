@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		78095846244C4AD0002A1277 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78095845244C4AD0002A1277 /* DetailViewController.swift */; };
 		7809584A244C69D5002A1277 /* BarButtonItem+Image&TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78095849244C69D5002A1277 /* BarButtonItem+Image&TextButton.swift */; };
+		780A64D924516EF9005C79A1 /* CommentCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780A64D824516EF9005C79A1 /* CommentCard.swift */; };
+		780A64DB24516F24005C79A1 /* CommentCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 780A64DA24516F24005C79A1 /* CommentCard.xib */; };
+		780A64DD24518102005C79A1 /* String+HTMLEscaped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780A64DC24518102005C79A1 /* String+HTMLEscaped.swift */; };
 		78535D082449B59200C165F0 /* APIMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78535D072449B59200C165F0 /* APIMgr.swift */; };
 		78535D0A244AEFEC00C165F0 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78535D09244AEFEC00C165F0 /* AccountViewController.swift */; };
 		78535D0C244AF8F000C165F0 /* TextField+BottomBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78535D0B244AF8F000C165F0 /* TextField+BottomBorder.swift */; };
@@ -26,6 +29,9 @@
 /* Begin PBXFileReference section */
 		78095845244C4AD0002A1277 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		78095849244C69D5002A1277 /* BarButtonItem+Image&TextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BarButtonItem+Image&TextButton.swift"; sourceTree = "<group>"; };
+		780A64D824516EF9005C79A1 /* CommentCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCard.swift; sourceTree = "<group>"; };
+		780A64DA24516F24005C79A1 /* CommentCard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCard.xib; sourceTree = "<group>"; };
+		780A64DC24518102005C79A1 /* String+HTMLEscaped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+HTMLEscaped.swift"; sourceTree = "<group>"; };
 		78535D072449B59200C165F0 /* APIMgr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIMgr.swift; sourceTree = "<group>"; };
 		78535D09244AEFEC00C165F0 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		78535D0B244AF8F000C165F0 /* TextField+BottomBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+BottomBorder.swift"; sourceTree = "<group>"; };
@@ -53,6 +59,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		780A64D32451695A005C79A1 /* CustomComponents */ = {
+			isa = PBXGroup;
+			children = (
+				780A64D824516EF9005C79A1 /* CommentCard.swift */,
+				780A64DA24516F24005C79A1 /* CommentCard.xib */,
+			);
+			path = CustomComponents;
+			sourceTree = "<group>";
+		};
 		78535D0D244B0C1300C165F0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -84,6 +99,7 @@
 		7862BE19244301F700EF4D4E /* Hackernews */ = {
 			isa = PBXGroup;
 			children = (
+				780A64D32451695A005C79A1 /* CustomComponents */,
 				78535D0D244B0C1300C165F0 /* Views */,
 				7862BE33244311E400EF4D4E /* Datas */,
 				7862BE2E244302DE00EF4D4E /* SupporingFiles */,
@@ -102,6 +118,7 @@
 				7862BE1C244301F700EF4D4E /* SceneDelegate.swift */,
 				7862BE23244301F800EF4D4E /* Assets.xcassets */,
 				78095849244C69D5002A1277 /* BarButtonItem+Image&TextButton.swift */,
+				780A64DC24518102005C79A1 /* String+HTMLEscaped.swift */,
 			);
 			path = SupporingFiles;
 			sourceTree = "<group>";
@@ -174,6 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7862BE27244301F800EF4D4E /* LaunchScreen.storyboard in Resources */,
+				780A64DB24516F24005C79A1 /* CommentCard.xib in Resources */,
 				7862BE24244301F800EF4D4E /* Assets.xcassets in Resources */,
 				7862BE22244301F700EF4D4E /* Main.storyboard in Resources */,
 			);
@@ -187,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7862BE35244311F000EF4D4E /* DataModel.swift in Sources */,
+				780A64D924516EF9005C79A1 /* CommentCard.swift in Sources */,
 				78095846244C4AD0002A1277 /* DetailViewController.swift in Sources */,
 				7862BE302443033400EF4D4E /* NewsListViewController.swift in Sources */,
 				78535D0A244AEFEC00C165F0 /* AccountViewController.swift in Sources */,
@@ -194,6 +213,7 @@
 				7862BE1B244301F700EF4D4E /* AppDelegate.swift in Sources */,
 				7862BE322443038A00EF4D4E /* NewsCell.swift in Sources */,
 				78535D082449B59200C165F0 /* APIMgr.swift in Sources */,
+				780A64DD24518102005C79A1 /* String+HTMLEscaped.swift in Sources */,
 				7890E95C244D938B0075D3C0 /* OriginWebViewController.swift in Sources */,
 				78535D0C244AF8F000C165F0 /* TextField+BottomBorder.swift in Sources */,
 				7862BE1D244301F700EF4D4E /* SceneDelegate.swift in Sources */,

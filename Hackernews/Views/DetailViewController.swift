@@ -19,6 +19,10 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var sendBtn: UIButton!
     
+    @IBOutlet weak var stackView: UIStackView!
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     var newsItem: Hacker?
     
     override func loadView() {
@@ -28,51 +32,20 @@ class DetailViewController: UIViewController {
         // create by EZDev on 2020.04.19
         self.navigationController?.navigationBar.tintColor = .white
         
-        // navigation bar button에 사용할 이미지 설정
-        // create by EZDev on 2020.04.19
-        let commentImg = UIImage(named: "comments")?.withRenderingMode(.alwaysTemplate)
-        
-        if let commentNums = newsItem?.numComments {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem.button(image: commentImg!, title: " \(commentNums)", target: self, action: #selector(clickComment(_:)))
-        }
-        else {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem.button(image: commentImg!, title: " 0", target: self, action: #selector(clickComment(_:)))
-        }
-        
+        // text view에 테두리 설정
         commentTextView.layer.borderColor = UIColor.systemGray.cgColor
         commentTextView.layer.borderWidth = 1
         
+        // 버튼 모서리 둥글게
         sendBtn.layer.cornerRadius = 15
         sendBtn.layer.masksToBounds = true
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         commentTextView.delegate = self
-//        print(newsItem?.parentId)
-//        let parent = APIMgr.manager.connectParent("\(newsItem?.parentId)")
-//
-//        if let title = parent?.title {
-//            content.text = title
-//        }
-//        else {
-//            content.text = parent?.commentText
-//        }
-//        point.text = "\(parent?.points) point"
-//        if let numComment = parent?.numComments as? String {
-//            comment.text = "\(numComment) comment"
-//        }
-//        date.text = parent?.dateTime
-//        author.text = parent?.author
-        
-        
-//        NotificationCenter.default.addObserver(forName: APIMgr.completedParent, object: Hacker.self, queue: OperationQueue.main) { [weak self] (noti) in
-//
-//            let parent = object
-//
-//        }
+        // 선택한 코멘트의 상위 글을 불러온다.
         if let code = newsItem?.parentId  {
             APIMgr.manager.connectParent("\(code)")
             print(code)
@@ -80,16 +53,21 @@ class DetailViewController: UIViewController {
         else {
             print("faile")
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
+        // 상위 글의 데이터를 화면에 표현해준다.
         NotificationCenter.default.addObserver(forName: APIMgr.completedParent, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             
             let parent = APIMgr.manager.parent
             
             if let title = parent?.title {
-                self?.content.text = title
+                self?.content.text = title.htmlEscaped
             }
             else {
-                self?.content.text = parent?.text
+                self?.content.text = parent?.text?.htmlEscaped
             }
             
             if let points = parent?.points {
@@ -110,18 +88,25 @@ class DetailViewController: UIViewController {
             if let author = parent?.author {
                 self?.author.text = "by \(author)"
             }
-
+            
+            
+            
+            if let comments = parent?.children {
+                for comment in comments {
+                    let commentCard = CommentCard()
+                    commentCard.author.text = comment.author
+                    commentCard.date.text = comment.dateTime
+                    commentCard.commentText.text = comment.text?.htmlEscaped
+                    
+                    self?.stackView.addArrangedSubview(commentCard)
+                }
+            }
+            
+            let height = self?.stackView.bounds.height
+            self?.scrollView.contentSize.height = CGFloat(100000)
         }
-        
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    @objc func clickComment(_ sender: Any) {
-        print("click comment")
-    }
+
     
 }
 
