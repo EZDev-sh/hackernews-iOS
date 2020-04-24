@@ -168,7 +168,6 @@ class APIMgr {
     func connectParent(_ code: String) {
         guard let url = URL(string: "https://hn.algolia.com/api/v1/items/\(code)") else { return }
         
-        print(url)
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         

@@ -48,7 +48,6 @@ class DetailViewController: UIViewController {
         // 선택한 코멘트의 상위 글을 불러온다.
         if let code = newsItem?.parentId  {
             APIMgr.manager.connectParent("\(code)")
-            print(code)
         }
         else {
             print("faile")
@@ -90,7 +89,8 @@ class DetailViewController: UIViewController {
             }
             
             
-            
+            // 선택한 코멘트의 상위글에 작성되어진 댓글 목록을 업데이트하고 stackView에 추가합니다.
+            // create by EZDev on 2020.04.24
             if let comments = parent?.children {
                 for comment in comments {
                     let commentCard = CommentCard()
@@ -102,8 +102,13 @@ class DetailViewController: UIViewController {
                 }
             }
             
-            let height = self?.stackView.bounds.height
-            self?.scrollView.contentSize.height = CGFloat(100000)
+            // scrollView의 content size를 유동적으로 변경합니다.
+            // create by EZDev on 2020.04.24
+            if let height = self?.stackView.frame.height, let viewHeight = self?.view.bounds.height {
+                
+                self?.scrollView.contentSize.height = height + viewHeight
+            }
+            
         }
     }
 

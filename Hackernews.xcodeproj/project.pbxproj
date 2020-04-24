@@ -114,11 +114,11 @@
 			isa = PBXGroup;
 			children = (
 				78535D0B244AF8F000C165F0 /* TextField+BottomBorder.swift */,
+				780A64DC24518102005C79A1 /* String+HTMLEscaped.swift */,
 				7862BE1A244301F700EF4D4E /* AppDelegate.swift */,
 				7862BE1C244301F700EF4D4E /* SceneDelegate.swift */,
 				7862BE23244301F800EF4D4E /* Assets.xcassets */,
 				78095849244C69D5002A1277 /* BarButtonItem+Image&TextButton.swift */,
-				780A64DC24518102005C79A1 /* String+HTMLEscaped.swift */,
 			);
 			path = SupporingFiles;
 			sourceTree = "<group>";
