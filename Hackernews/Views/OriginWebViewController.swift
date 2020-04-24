@@ -12,6 +12,7 @@ import WebKit
 class OriginWebViewcontroller: UIViewController {
     
     @IBOutlet weak var webView: WKWebView!
+    @IBOutlet weak var loading: UIActivityIndicatorView!
     
     var newsItem: Hacker?
     
@@ -129,6 +130,10 @@ extension OriginWebViewcontroller: WKUIDelegate, WKNavigationDelegate {
     
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
         webView.reload()
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        loading.stopAnimating()
     }
 }
 

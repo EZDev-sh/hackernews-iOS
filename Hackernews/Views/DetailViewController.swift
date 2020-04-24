@@ -23,6 +23,8 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var loading: UIActivityIndicatorView!
+    
     var newsItem: Hacker?
     
     override func loadView() {
@@ -59,6 +61,7 @@ class DetailViewController: UIViewController {
         
         // 상위 글의 데이터를 화면에 표현해준다.
         NotificationCenter.default.addObserver(forName: APIMgr.completedParent, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
+            
             
             let parent = APIMgr.manager.parent
             
@@ -108,6 +111,8 @@ class DetailViewController: UIViewController {
                 
                 self?.scrollView.contentSize.height = height + viewHeight
             }
+            
+            self?.loading.stopAnimating()
             
         }
     }
