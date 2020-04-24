@@ -35,12 +35,12 @@ class DetailViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = .white
         
         // text view에 테두리 설정
-        commentTextView.layer.borderColor = UIColor.systemGray.cgColor
-        commentTextView.layer.borderWidth = 1
-        
+        self.commentTextView.layer.borderColor = UIColor.systemGray.cgColor
+        self.commentTextView.layer.borderWidth = 1
+
         // 버튼 모서리 둥글게
-        sendBtn.layer.cornerRadius = 15
-        sendBtn.layer.masksToBounds = true
+        self.sendBtn.layer.cornerRadius = 15
+        self.sendBtn.layer.masksToBounds = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,8 +51,9 @@ class DetailViewController: UIViewController {
         if let code = newsItem?.parentId  {
             APIMgr.manager.connectParent("\(code)")
         }
-        else {
-            print("faile")
+        // 
+        else if let code = newsItem?.objectID {
+            APIMgr.manager.connectParent("\(code)")
         }
     }
     

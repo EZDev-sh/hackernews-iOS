@@ -61,11 +61,15 @@ class OriginWebViewcontroller: UIViewController {
     }
     
     @objc func clickComment(_ sender: Any) {
-        print("click comment")
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        guard let detailView = storyBoard.instantiateViewController(withIdentifier: "detailView") as? DetailViewController else { return }
+        detailView.newsItem = newsItem
+        
+        self.navigationController?.pushViewController(detailView, animated: true)
     }
     
     @objc func clickPoint(_ sender: Any) {
-        print("click point")
+        self.showToastMsg(message: "아직 기능 구현중입니다.", seconds: 1.0)
     }
 
 
@@ -136,4 +140,3 @@ extension OriginWebViewcontroller: WKUIDelegate, WKNavigationDelegate {
         loading.stopAnimating()
     }
 }
-

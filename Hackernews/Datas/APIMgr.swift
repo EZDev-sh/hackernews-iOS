@@ -39,6 +39,7 @@ class APIMgr {
             }
             
         } catch let jsonErr {
+            print("parse error")
             print(jsonErr.localizedDescription)
             return nil
         }
@@ -108,6 +109,8 @@ class APIMgr {
         else {
             url = URL(string: "https://hn.algolia.com/api/v1/search_by_date?tags=\(tags)&page=\(page)")
         }
+        
+        print(url)
 
         
         let config = URLSessionConfiguration.default

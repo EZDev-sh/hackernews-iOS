@@ -59,6 +59,10 @@ class NewsListViewController: UIViewController {
         APIMgr.manager.connectAPI()
     }
     
+    @IBAction func notRealize(_ sender: UIBarButtonItem) {
+        self.showToastMsg(message: "아직 기능 구현중 입니다.", seconds: 1.0)
+    }
+    
     
 }
 

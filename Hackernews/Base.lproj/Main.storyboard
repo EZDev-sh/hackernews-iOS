@@ -214,11 +214,14 @@
                         <rightBarButtonItems>
                             <barButtonItem systemItem="compose" id="IIp-Lx-sXn">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="notRealize:" destination="BYZ-38-t0r" id="3Dh-uA-hmz"/>
+                                </connections>
                             </barButtonItem>
                             <barButtonItem title="Log In" id="hGS-Hj-ls5">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
-                                    <segue destination="vxC-hi-sQb" kind="show" id="QQ1-xg-B8Y"/>
+                                    <action selector="notRealize:" destination="BYZ-38-t0r" id="Uj5-lf-DCe"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -307,7 +310,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="sOm-9b-iGI">
-                                <rect key="frame" x="20" y="150" width="374" height="384"/>
+                                <rect key="frame" x="20" y="54" width="374" height="384"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="p96-Oo-RV6">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="182"/>
@@ -328,7 +331,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="write user name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pdn-lA-PNn">
-                                                        <rect key="frame" x="0.0" y="25.333333333333343" width="374" height="18.666666666666671"/>
+                                                        <rect key="frame" x="0.0" y="25.333333333333329" width="374" height="18.666666666666671"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
@@ -347,7 +350,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="write password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="elR-Vw-tEF">
-                                                        <rect key="frame" x="0.0" y="25.333333333333314" width="374" height="18.666666666666671"/>
+                                                        <rect key="frame" x="0.0" y="25.333333333333343" width="374" height="18.666666666666671"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" textContentType="password"/>
                                                         <connections>

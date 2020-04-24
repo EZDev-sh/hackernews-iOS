@@ -26,6 +26,7 @@ struct Hacker: Codable {
     let storyTitle: String?
     let parentId: Int?
     let text: String?
+    let objectID: String?
     
     // 년, 월, 일 만 다시 가져온다.
     // create by EZDev on 2020.04.16
@@ -52,7 +53,7 @@ struct Hacker: Codable {
     // json 형식을 swift에 맞춰서 변수를 사용하기 위한 작업
     // create by EZDev on 2020.04.14
     enum CodingKeys: String, CodingKey {
-        case title, url, author, points, children, text
+        case title, url, author, points, children, text, objectID
         case numComments = "num_comments"
         case date = "created_at_i"
         case commentText = "comment_text"
