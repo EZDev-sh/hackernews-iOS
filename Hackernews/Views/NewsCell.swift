@@ -55,9 +55,15 @@ class NewsCell: UITableViewCell {
         if let point = hacker.points {
             self.point.text = "\(point)"
         }
+        else {
+            self.point.text = "-"
+        }
         
         if let comment = hacker.numComments {
             self.comments.text = "\(comment)"
+        }
+        else {
+            self.comments.text = "-"
         }
         
     }

@@ -14,6 +14,8 @@ class CommentCard: UIView {
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var commentText: UILabel!
     
+    var view: UIView!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -26,7 +28,7 @@ class CommentCard: UIView {
     
     func setupUI() {
         
-        let view = Bundle.main.loadNibNamed("CommentCard", owner: self, options: nil)?.first as! UIView
+        view = Bundle.main.loadNibNamed("CommentCard", owner: self, options: nil)?.first as? UIView
         
         view.frame = self.bounds
         

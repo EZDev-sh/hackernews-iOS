@@ -12,6 +12,7 @@ class NewsListViewController: UIViewController {
     
     // 변경 되어야할 UI Component
     @IBOutlet weak var newsTable: UITableView!
+    @IBOutlet weak var loginBtn: UIBarButtonItem!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -28,12 +29,22 @@ class NewsListViewController: UIViewController {
             self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
         }
         
+        if let name = APIMgr.manager.userName {
+            loginBtn.title = name
+        }
+        else {
+            loginBtn.title = "Log In"
+        }
+        
+    }
+    
+    @objc func bestNews(_ sender: UIButton) {
+        print("best news")
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         // api에 접속하여 데이터 추출을 시도한다.
         APIMgr.manager.connectAPI()
-        
         
         // 데이터 추출이 끝났을경우 알림이오는 노티피케이션
         NotificationCenter.default.addObserver(forName: APIMgr.completedData, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
@@ -59,11 +70,12 @@ class NewsListViewController: UIViewController {
         APIMgr.manager.connectAPI()
     }
     
+    
+    
     @IBAction func notRealize(_ sender: UIBarButtonItem) {
         self.showToastMsg(message: "아직 기능 구현중 입니다.", seconds: 1.0)
     }
-    
-    
+  
 }
 
 // UITableView의 데이터와 행동 컨트롤

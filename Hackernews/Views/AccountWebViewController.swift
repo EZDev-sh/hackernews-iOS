@@ -1,76 +1,42 @@
 //
-//  OriginWebViewController.swift
+//  AccountWebViewController.swift
 //  Hackernews
 //
-//  Created by EZDev on 2020/04/20.
+//  Created by EZDev on 2020/04/26.
 //  Copyright © 2020 EZDev. All rights reserved.
 //
 
 import UIKit
 import WebKit
 
-class OriginWebViewcontroller: UIViewController {
+class AccountWebViewController: UIViewController {
     
     @IBOutlet weak var webView: WKWebView!
-    @IBOutlet weak var loading: UIActivityIndicatorView!
-    
-    var newsItem: Hacker?
-    
-    override func loadView() {
-        super.loadView()
-        
-        // navigation bar item 색상 변경
-        // create by EZDev on 2020.04.19
-        self.navigationController?.navigationBar.tintColor = .white
-        
-        // navigation bar button에 사용할 이미지 설정
-        // create by EZDev on 2020.04.19
-        let pointImg = UIImage(named: "point")?.withRenderingMode(.alwaysTemplate)
-        let commentImg = UIImage(named: "comments")?.withRenderingMode(.alwaysTemplate)
-        
-        if let commentNums = newsItem?.numComments {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem.button(image: commentImg!, title: " \(commentNums)", target: self, action: #selector(clickComment(_:)))
-        }
-        if let point = newsItem?.points {
-            self.navigationItem.rightBarButtonItems?.append(UIBarButtonItem.button(image: pointImg!, title: " \(point)", target: self, action: #selector(clickPoint(_:))))
 
-        }
-        
-        webView.uiDelegate = self
-        webView.navigationDelegate = self
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if let link = newsItem?.url {
-            connectOriginal(link)
-        }
-    }
-    
-    // webView에 사용할 웹사이트 불러오기
-    // create by EZDev on 2020.04.19
-    func connectOriginal(_ link: String) {
-        guard let url = URL(string: link) else { return }
-        let request = URLRequest(url: url)
-        webView.load(request)
-    }
-    
-    @objc func clickComment(_ sender: Any) {
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        guard let detailView = storyBoard.instantiateViewController(withIdentifier: "detailView") as? DetailViewController else { return }
-        detailView.newsItem = newsItem
         
-        self.navigationController?.pushViewController(detailView, animated: true)
+        self.navigationController?.navigationBar.tintColor = .white
+        webView.uiDelegate = self
+        webView.navigationDelegate = self
+
+       connectAccount("https://news.ycombinator.com/login")
+        
+        
+        
     }
     
-    @objc func clickPoint(_ sender: Any) {
-        self.showToastMsg(message: "아직 기능 구현중입니다.", seconds: 1.0)
+    func connectAccount(_ link: String) {
+        guard let url = URL(string: link) else { return }
+        
+        let webrequest = URLRequest(url: url)
+        
+        webView.load(webrequest)
     }
-
 
 }
-extension OriginWebViewcontroller: WKUIDelegate, WKNavigationDelegate {
+
+extension AccountWebViewController:  WKUIDelegate, WKNavigationDelegate {
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
         
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
@@ -133,6 +99,12 @@ extension OriginWebViewcontroller: WKUIDelegate, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        loading.stopAnimating()
+        print("end")
+        WKWebsiteDataStore.default().httpCookieStore.getAllCookies({ (cookies) in
+            for cookie in cookies {
+                print("cookie: \(cookie.name) - \(cookie.value)")
+            }
+        })
     }
 }
+

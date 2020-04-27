@@ -80,31 +80,33 @@ class DetailViewController: UIViewController {
                 self?.point.text = "0 point"
             }
             
-            if let numComment = parent?.numComments {
-                self?.comment.text = "\(numComment) comment"
-            }
-            else if let numComment = parent?.children?.count {
-                self?.comment.text = "\(numComment) comment"
-            }
+            
             
             self?.date.text = parent?.dateTime
             if let author = parent?.author {
                 self?.author.text = "by \(author)"
             }
+
+            var commentCnt = 0
             
-            
-            // 선택한 코멘트의 상위글에 작성되어진 댓글 목록을 업데이트하고 stackView에 추가합니다.
-            // create by EZDev on 2020.04.24
             if let comments = parent?.children {
+                commentCnt = comments.count
                 for comment in comments {
-                    let commentCard = CommentCard()
-                    commentCard.author.text = comment.author
-                    commentCard.date.text = comment.dateTime
-                    commentCard.commentText.text = comment.text?.htmlEscaped
+                    if let cnt = self?.addCommentCard(baseView: self?.stackView, comment: comment) {
+                        commentCnt += cnt
+                    }
                     
-                    self?.stackView.addArrangedSubview(commentCard)
                 }
             }
+            
+            if let numComment = parent?.numComments {
+                self?.comment.text = "\(numComment) comment"
+            }
+            else {
+                self?.comment.text = "\(commentCnt) comment"
+            }
+            
+            
             
             // scrollView의 content size를 유동적으로 변경합니다.
             // create by EZDev on 2020.04.24
@@ -116,6 +118,48 @@ class DetailViewController: UIViewController {
             self?.loading.stopAnimating()
             
         }
+    }
+    
+    
+    // 해당글에 작성된 모든 댓글을 표현해줍니다.
+    // create by EZDev on 2020.04.27
+    var depth = 0
+    func addCommentCard(baseView: UIStackView?, comment: Hacker) -> Int {
+        
+        var num = 0
+        // 댓글에 작성된 댓글을 표현해주기위한 stackView
+        let commentStackView = UIStackView()
+        commentStackView.axis = .vertical
+        commentStackView.alignment = .fill
+        commentStackView.distribution = .equalSpacing
+        commentStackView.spacing = 10
+        // 댓글의 댓글이라는 것을 표현해주기위한 들여쓰기
+        let leftMargin = CGFloat(depth * 10)
+        commentStackView.layoutMargins = UIEdgeInsets(top: 0, left: leftMargin, bottom: 0, right: 0)
+        commentStackView.isLayoutMarginsRelativeArrangement = true
+        
+        // 댓글의 내용이 들어갈 컴포넌트
+        let commentCard = CommentCard()
+        commentCard.author.text = comment.author
+        commentCard.date.text = comment.dateTime
+        commentCard.commentText.text = comment.text?.htmlEscaped
+        
+        commentStackView.addArrangedSubview(commentCard)
+        
+        // 댓글이 달린것이 있는지 확인
+        if let kids = comment.children {
+            num = kids.count
+            // 댓글의 깊이 추가
+            depth += 1
+            for kid in kids {
+                num += self.addCommentCard(baseView: commentStackView, comment: kid)
+            }
+        }
+        // 댓글의 깊이를 다시 이전으로 되돌리기
+        depth -= 1
+        
+        baseView?.addArrangedSubview(commentStackView)
+        return num
     }
 
     
