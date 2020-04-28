@@ -18,7 +18,7 @@ class APIMgr {
     // url주소가 변경될때 사용되는 변수와 상수
     // create by EZDev on 2020.04.18
     let tagList = ["story", "best", "comment", "show_hn", "ask_hn", "jobstories"]
-    var tags = "comment"
+    var tags = "story"
     var page = 0
     
     // NewsListViewController에서 newsTable에 사용되는 데이터 변수
@@ -32,11 +32,12 @@ class APIMgr {
     func parseHacker(_ data: Data) -> [Hacker]? {
         do {
             let decoder = JSONDecoder()
-            if tags == tagList[4] {
+            if tags == tagList[5] {
                 let hacker = try decoder.decode(Hacker.self, from: data)
                 return [hacker]
             }
             else {
+                print(tags)
                 let response = try decoder.decode(Response.self, from: data)
                 return response.hits
             }
@@ -109,12 +110,14 @@ class APIMgr {
         if tags == tagList[1] {
             url = URL(string: "https://hn.algolia.com/api/v1/search?tags=story&page=\(page)")
         }
-        else if tags == tagList[4] {
+        else if tags == tagList[5] {
             url = URL(string: "https://hacker-news.firebaseio.com/v0/\(tags).json")
         }
         else {
             url = URL(string: "https://hn.algolia.com/api/v1/search_by_date?tags=\(tags)&page=\(page)")
         }
+        
+        print(url)
         
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
@@ -142,7 +145,7 @@ class APIMgr {
             }
             
             // 정보 업데이트
-            if self.tags == self.tagList[4] {
+            if self.tags == self.tagList[5] {
                 self.parseJobs(getData)
             }
             else {
