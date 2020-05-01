@@ -117,7 +117,6 @@ class APIMgr {
             url = URL(string: "https://hn.algolia.com/api/v1/search_by_date?tags=\(tags)&page=\(page)")
         }
         
-        print(url)
         
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)

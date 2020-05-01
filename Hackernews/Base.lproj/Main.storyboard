@@ -16,6 +16,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wfh-Qc-FZ0">
+                                <rect key="frame" x="0.0" y="140" width="414" height="722"/>
+                                <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CWy-8I-xAo">
                                 <rect key="frame" x="0.0" y="140" width="414" height="60"/>
                                 <subviews>
@@ -84,7 +88,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZlF-FQ-zWQ">
-                                <rect key="frame" x="0.0" y="200" width="414" height="662"/>
+                                <rect key="frame" x="0.0" y="203" width="414" height="659"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="newsCell" rowHeight="169" id="Fkn-t1-jDg" customClass="NewsCell" customModule="Hackernews" customModuleProvider="target">
@@ -208,11 +212,15 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="ZlF-FQ-zWQ" firstAttribute="top" secondItem="CWy-8I-xAo" secondAttribute="bottom" id="4fc-aF-Goh"/>
+                            <constraint firstItem="ZlF-FQ-zWQ" firstAttribute="top" secondItem="CWy-8I-xAo" secondAttribute="bottom" constant="3" id="4fc-aF-Goh"/>
                             <constraint firstItem="CWy-8I-xAo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="7wx-dS-aAh"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Wfh-Qc-FZ0" secondAttribute="trailing" id="CRi-ZM-m9b"/>
+                            <constraint firstItem="Wfh-Qc-FZ0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="CTn-Si-sIP"/>
                             <constraint firstItem="ZlF-FQ-zWQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Mys-2K-nq6"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Wfh-Qc-FZ0" secondAttribute="bottom" id="PzV-uq-2aP"/>
                             <constraint firstItem="ZlF-FQ-zWQ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Txz-xM-SaG"/>
                             <constraint firstItem="ZlF-FQ-zWQ" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="bWZ-3g-y5b"/>
+                            <constraint firstItem="Wfh-Qc-FZ0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="bdp-z1-sYo"/>
                             <constraint firstItem="CWy-8I-xAo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="cu6-aG-3qa"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CWy-8I-xAo" secondAttribute="trailing" id="wGN-td-xoV"/>
                         </constraints>
@@ -232,8 +240,15 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="header" destination="CWy-8I-xAo" id="nIe-Mg-L7B"/>
                         <outlet property="loginBtn" destination="hGS-Hj-ls5" id="OTa-qo-CKs"/>
                         <outlet property="newsTable" destination="ZlF-FQ-zWQ" id="SFK-Tj-wOU"/>
+                        <outletCollection property="headerBtns" destination="rRR-D6-aXU" collectionClass="NSMutableArray" id="KMC-Ve-R6q"/>
+                        <outletCollection property="headerBtns" destination="fRT-Uk-3jM" collectionClass="NSMutableArray" id="DiJ-s4-O53"/>
+                        <outletCollection property="headerBtns" destination="Q4e-0T-POp" collectionClass="NSMutableArray" id="7oD-YQ-eOp"/>
+                        <outletCollection property="headerBtns" destination="3ay-eG-jYH" collectionClass="NSMutableArray" id="m0R-lj-15a"/>
+                        <outletCollection property="headerBtns" destination="SuF-7K-GWq" collectionClass="NSMutableArray" id="jSf-Iv-KnK"/>
+                        <outletCollection property="headerBtns" destination="LDa-dI-1oc" collectionClass="NSMutableArray" id="vOU-vK-DLK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

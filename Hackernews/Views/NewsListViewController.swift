@@ -14,6 +14,10 @@ class NewsListViewController: UIViewController {
     @IBOutlet weak var newsTable: UITableView!
     @IBOutlet weak var loginBtn: UIBarButtonItem!
     
+    @IBOutlet var headerBtns: [UIButton]!
+    
+    @IBOutlet weak var header: UIView!
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -36,11 +40,9 @@ class NewsListViewController: UIViewController {
             loginBtn.title = "Log In"
         }
         
+
     }
     
-    @objc func bestNews(_ sender: UIButton) {
-        print("best news")
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // api에 접속하여 데이터 추출을 시도한다.
@@ -50,8 +52,19 @@ class NewsListViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: APIMgr.completedData, object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             self?.newsTable.reloadData()
         }
+        
+        
     }
     
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // header highlight
+        if let cnt = headerBtns[0].layer.sublayers?.count, cnt == 1 {
+            headerBtns[0].highlightUnderLine()
+        }
+    }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -64,6 +77,12 @@ class NewsListViewController: UIViewController {
     // 페이지 전환
     // create by EZDev on 2020.04.16
     @IBAction func headerBtn(_ sender: UIButton) {
+        for btn in headerBtns {
+            if let cnt = btn.layer.sublayers?.count, cnt > 1 {
+                btn.layer.sublayers?.removeLast()
+            }
+        }
+        sender.highlightUnderLine()
         APIMgr.manager.page = 0
         APIMgr.manager.tags = APIMgr.manager.tagList[sender.tag]
         APIMgr.manager.newsList.removeAll()
